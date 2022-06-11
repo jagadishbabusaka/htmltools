@@ -1,0 +1,23 @@
+{
+    "name": "HTML TOOLS",
+    "short_name": "HTML TOOLS",
+    "icons": [
+        {
+            "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjgWRG3RCFdMNdvwkesNotDrFZtmywHWAgtXNiIuT8oXXDB_ZllmVvb6qfXydVyJXCWH0ylWVZwKSZ1H-MWXIh9iNXnbA1lHIiY2c_yK2tBmNmU_GTxYLzl36YelDh43BjPIF5NHF-cmIb-E8OzVSm9hYKsj54FSMkBnCOYE6eUKh_osijG4YGbCIDz4g/s1600/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi-X_SC5hczk8UgWubOcQa1KbaGaCEHrDtp-25fQfwMT8p4t90SVB7whbPXYGaWYLqfxDmJ8V__VzmXdaiO1e3JunWFR9BrVBGpybdqW1HyoJenExdGeomQD1DccRUuJWVtj-QjiwOL-83lVP6PvBz7UixMDIkbyYnJQECGcVBG9uA6OI1RfyFEQd2gvA/s1600/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "prefer_related_applications": false,
+  "start_url": "https://www.html-tools.com/"
+}

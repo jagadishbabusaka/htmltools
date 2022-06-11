@@ -1,0 +1,70 @@
+<div id=tg_pg ng-app=myApp ng-controller=myCtrl>
+<form class=tool>
+<input ng-disabled=!isSavedInLocalStorage class=tool_btn type=button value="Reset or Start New Quiz" ng-click=clearContentSettings()>
+<br>
+<div class=radio-toolbar>
+<input type=radio id=questions name=selectType ng-model=selectType value=questions>
+<label for=questions>Quiz Questions Editor</label>
+<input type=radio id=settings name=selectType ng-model=selectType value=settings>
+<label for=settings>Quiz Settings</label>
+</div>
+<div class=form_container>
+<div ng-show="selectType == 'settings'" style="background:0 0;color:#000;box-shadow:rgb(38 57 77) 0 1px 15px 0;margin:10px 0;border:1px solid gray">
+<input type=checkbox id=timer ng-model=isShowQuestionNumber ng-change=changValue();>
+<label for=timer>Show Question Number</label>
+<input type=checkbox id=showAllQuestions ng-model=isShowReport ng-change=changValue()>
+<label for=showAllQuestions>Show Report</label>
+</div>
+<div ng-show="selectType == 'questions'">
+<div class=single-question-container ng-repeat="q in editableData" ng-init="qindex = $index;q.selected=null">
+<div class=removeQuestion ng-click=removeQuestion(qindex) ng-show="$index==editableData.length-1">X</div>
+<div class=question>
+<span class=questionNum>{{$index+1}}.</span>
+<div class=questionName>
+<input ng-model=q.question ng-change=changValue()>
+</div>
+</div>
+<div ng-show="q.type == qtype[0]" class=option ng-repeat="option in q.options" ng-init="oindex = $index">
+<input type=radio id=editradio{{qindex}}{{oindex}} name=editradio{{qindex}} value={{oindex}} ng-model=q.selected ng-change=changValue() ng-checked=option.right>
+<label for=editradio{{qindex}}{{oindex}} name=editradio{{qindex}}><input ng-model=option.value ng-change=changValue()>
+</label>
+</div>
+<div class=addOption ng-click=addOption(qindex)>Add Option</div>
+<div>
+<div>Expain Answer(Optional): It will be displayed when the answers are revealed.</div>
+<textarea class=explanation ng-model=q.explanation ng-change=changValue() placeholder="Explain Answer (Optional)"></textarea>
+</div>
+</div>
+<div class=addQuestion ng-click=addQuestion()>Add Question</div>
+</div>
+</div>
+</form>
+<br>
+<div><b>Live Quiz View:</b></div>
+<br>
+<div class=responsive_container><div class=row><div class="column desktop_column"><div id=desktop_view><div class=view_gradient>
+<div id=quiz_container>
+<div class=single-question-container ng-repeat="q in data" ng-init="qindex = $index;" ng-class="{'enabled': !q.checked,'disabled': q.checked}">
+<div class=question>
+<div class=questionNum ng-show=isShowQuestionNumber>{{qindex+1}}/{{data.length}}</div>
+<div class=questionName>{{q.question}}</div>
+</div>
+<div class=options-container>
+<div class=label-div ng-init="oindex = $index" ng-click=selectedOption(qindex,oindex) ng-repeat="opt in q.options" ng-class="{'correct': opt.right, 'incorrect': (!opt.right && opt.selected)}">
+{{opt.value}}
+</div>
+</div>
+<div class=demo_explaina ng-if=q.explanation>
+<b>Explanation: </b> {{q.explanation}}
+</div>
+</div>
+<div id=score-board style=text-align:center ng-show=isShowReport>
+<b>Result:</b>
+<br>
+<div id=score-card>{{score}} out of {{data.length}}</div>
+</div>
+</div>
+</div></div></div><div class="column mobile_column"></div></div></div>
+<br>
+<code-generater dat="{isShowAllQuestions:isShowAllQuestions, isShowTimer:isShowTimer, data:data, maxWidth:maxWidth, maxWidthType:maxWidthType,alignType:alignType,showGeneratedCode:showGeneratedCode}"></code-generater>
+</div>

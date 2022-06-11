@@ -1,0 +1,86 @@
+<div id=tg_pg ng-app=myApp ng-controller=myCtrl>
+<form>
+<div style=margin-bottom:10px>
+<input ng-disabled=!isSavedInLocalStorage class=tool_btn type=button value="Reset or Start New Quiz" ng-click=clearContentSettings()>
+<div style="margin:0 auto;border:1px solid #d5d5d5;margin:20px 0;border-radius:3px;box-shadow:rgba(0,0,0,.07) 0 1px 2px,rgba(0,0,0,.07) 0 2px 4px,rgba(0,0,0,.07) 0 4px 8px,rgba(0,0,0,.07) 0 8px 16px,rgba(0,0,0,.07) 0 16px 32px,rgba(0,0,0,.07) 0 32px 64px">
+<div style="display:inline-block;width:100%;border:1px solid #d5d5d5;border-radius:3px;margin-top:0;padding:6px 0;border-top:0">
+<h4 style="padding:0 5px">HTML Table Style Editor</h4>
+<div style=display:inline-block;width:130px>
+<label style=padding-left:8px><b>Table</b> Color</label>
+</div>
+<span>
+<input type=color name=tablecolor ng-model=tableColor ng-change=formDataChanged() class="ng-pristine ng-untouched ng-valid ng-not-empty">
+</span><br><br>
+<div style=display:inline-block;width:130px>
+<label style=margin-left:8px>Text Color</label>
+</div>
+<span>
+<input type=color name=tabletextcolor ng-model=tableTextColor ng-change=formDataChanged() class="ng-pristine ng-untouched ng-valid ng-not-empty">
+</span><br><br>
+<div style=display:inline-block;width:130px>
+<label style=margin-left:8px>Border Color</label>
+</div>
+<span>
+<input type=color name=bordercolor ng-model=borderColor ng-change=formDataChanged() class="ng-pristine ng-untouched ng-valid ng-not-empty">
+</span>
+</div>
+<div style="display:inline-block;width:100%;border:1px solid #d5d5d5;border-radius:3px;margin-top:10px;border-top:0">
+<div style=display:inline-block>
+<input type=checkbox id=isheader ng-model=isHeader ng-change=formDataChanged() class="ng-pristine ng-untouched ng-valid ng-not-empty">
+<label for=isheader><b>Header</b></label>
+</div>
+<span ng-show=isHeader>
+<input type=color name=headcolor ng-model=headerColor ng-change=formDataChanged() class="ng-pristine ng-untouched ng-valid ng-not-empty">
+</span>
+<div style=display:inline-block>
+<label for=isheader ng-show=isHeader style=margin-left:22px>Text Color</label>
+</div>
+<span ng-show=isHeader>
+<input type=color name=headtextcolor ng-model=headerTextColor ng-change=formDataChanged() class="ng-pristine ng-untouched ng-valid ng-not-empty">
+</span>
+</div>
+<div style="display:inline-block;width:240px;border:0 solid #d5d5d5;border-radius:3px;margin-top:10px">
+<div style=display:inline-block>
+<input type=checkbox id=isStriped ng-model=isStriped ng-change=formDataChanged() class="ng-pristine ng-untouched ng-valid ng-not-empty">
+<label for=isStriped>Striped Table</label>
+</div>
+<span ng-show=isStriped>
+<input type=color name=striperColor ng-model=striperColor ng-change=formDataChanged() class="ng-pristine ng-untouched ng-valid ng-not-empty">
+</span>
+</div>
+<div style="display:inline-block;width:240px;border:0 solid #fff;border-radius:3px;margin-top:10px">
+<div style=display:inline-block>
+<input type=checkbox id=isHoverRows ng-model=isHoverRows ng-change=formDataChanged() class="ng-pristine ng-untouched ng-valid ng-not-empty">
+<label for=isHoverRows>Hover Rows</label>
+</div>
+<span ng-show=isHoverRows>
+<input type=color name=hoverRowsColor ng-model=hoverRowsColor ng-change=formDataChanged() class="ng-pristine ng-untouched ng-valid ng-not-empty">
+</span>
+</div>
+<div style="margin-top:10px;padding:10px;border:1px solid #d5d5d5;border-bottom:0">
+<label>Rows</label>
+<input type=number min=0 max=200 ng-model=row ng-change=createTableData() class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min ng-valid-max">
+<label>Columns</label>
+<input type=number min=0 max=15 ng-model=col ng-change=createTableData() class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min ng-valid-max">
+</div>
+</div>
+</div>
+<div>
+</div>
+</form>
+<desktop-mobile></desktop-mobile>
+<div style="box-shadow:rgb(38 57 77) 0 1px 15px 0;padding:5px;margin:10px 0">
+<div>
+<h4>HTML Table Content Editor</h4>
+<input ng-disabled=!isSavedInLocalStorage class=tool_btn type=button value="Set Default Content and Settings" ng-click=clearContentSettings()>
+<div style=width:200px>
+<div ng-repeat="(key, val) in heads track by $index">
+<input ng-model=val ng-change="headChanged(key, val)" style=padding:5px;margin-bottom:5px>
+</div>
+</div>
+</div>
+<edit-tables></edit-tables>
+</div>
+<h4>HTML Table Generator Generated Code</h4>
+<code-generater dat="{heads:heads, data: data, selectedTableType:selectedTableType, isHeader:isHeader, headerColor:headerColor, isStriped:isStriped, striperColor:striperColor, isHoverRows:isHoverRows, hoverRowsColor:hoverRowsColor, isBorderCells:isBorderCells,borderCellsColor:borderCellsColor,tableColor:tableColor,borderColor:borderColor,tableTextColor:tableTextColor,headerTextColor:headerTextColor}"></code-generater>
+</div>

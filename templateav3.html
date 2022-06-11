@@ -1,0 +1,332 @@
+<div id=tg_pg ng-app=myApp ng-controller=myCtrl>
+<form class=tool>
+<input ng-disabled=!isSavedInLocalStorage class=tool_btn type=button value="Reset or Start New Quiz" ng-click=clearContentSettings()>
+<br>
+<div class=radio-toolbar>
+<input type=radio id=questions name=selectType ng-model=selectType value=questions>
+<label for=questions>Quiz Questions</label>
+<input type=radio id=settings name=selectType ng-model=selectType value=settings>
+<label for=settings>Quiz Settings</label>
+<input type=radio id=themes name=selectType ng-model=selectType value=themes>
+<label for=themes>Theme Settings</label>
+<input type=radio id=advthemes name=selectType ng-model=selectType value=advthemes>
+<label for=advthemes>Advanced Theme Settings</label>
+</div>
+<div class=form_container>
+<div ng-show="selectType == 'settings'" style="background:0 0;color:#000;box-shadow:rgb(38 57 77) 0 1px 15px 0;margin:10px 0;border:1px solid gray">
+<input type=checkbox id=timer ng-model=isShowTimer ng-change=changValue();>
+<label for=timer>Show Timer</label>
+<input type=checkbox id=showAllQuestions ng-model=isShowAllQuestions ng-change=changValue();>
+<label for=showAllQuestions>Show All Questions</label>
+<input type=checkbox id=showReset ng-model=isShowResetBtn ng-change=changValue();>
+<label for=showReset>Show Reset Button</label>
+<div style=padding:5px>
+Quiz Container Max Width: <input type=number ng-model=maxWidth ng-change=changValue();><select ng-model=maxWidthType ng-change=changValue();>
+<option value=px>pixel</option>
+<option value=pr>percent</option>
+</select><br>
+Quiz Container Align: <select ng-model=alignType ng-change=changValue();>
+<option value=left>Left</option>
+<option value=center>Center</option>
+</select>
+</div>
+</div>
+<div ng-show="selectType == 'questions'">
+<div class=single-question-container ng-repeat="q in editableData" ng-init="qindex = $index;q.selected=null">
+Select Question Type: <select ng-model=q.type ng-change=changValue()>
+<option value=radio>Single Select</option>
+<option value=checkbox>Multi Select</option>
+</select>
+<div class=removeQuestion ng-click=removeQuestion(qindex) ng-show="$index==editableData.length-1">X</div>
+<div class=question>
+<span class=questionNum>{{$index+1}}.</span>
+<div class=questionName><input ng-model=q.question ng-change=changValue()></div>
+</div>
+<div ng-show="q.type == qtype[0]" class=option ng-repeat="option in q.options" ng-init="oindex = $index">
+<input type=radio id=editradio{{qindex}}{{oindex}} name=editradio{{qindex}} value={{oindex}} ng-model=q.selected ng-change=changValue() ng-checked=option.right>
+<label for=editradio{{qindex}}{{oindex}} name=editradio{{qindex}}><input ng-model=option.value ng-change=changValue()>
+<div class=removeOption ng-click="removeOption(qindex, oindex)" ng-show="$index == q.options.length-1">X</div>
+</label>
+</div>
+<div ng-show="q.type == qtype[1]" class=option ng-repeat="option in q.options" ng-init="oindex = $index">
+<input type=checkbox id=editcheckbox{{qindex}}{{oindex}} name=editcheckbox{{qindex}} value={{oindex}} ng-checked=option.right ng-model=option.right ng-change=changValue()>
+<label for=editcheckbox{{qindex}}{{oindex}} name=editcheckbox{{qindex}}><input ng-model=option.value ng-change=changValue()>
+<div class=removeOption ng-click="removeOption(qindex, oindex)" ng-show="$index == q.options.length-1">X</div>
+</label>
+</div>
+<div class=addOption ng-click=addOption(qindex)>Add Option</div>
+<div>
+<div>Expain Answer(Optional): It will be displayed when the answers are revelead.</div>
+<textarea class=explanation ng-model=q.explanation ng-change=changValue() placeholder="Explain Answer (Optional)"></textarea>
+</div>
+</div>
+<div class=addQuestion ng-click=addQuestion()>Add Question</div>
+</div>
+<div ng-show="selectType == 'themes'" style="background:0 0;color:#000;box-shadow:rgb(38 57 77) 0 1px 15px 0;margin:10px 0;border:1px solid gray">
+<div style="padding:5px;border:1px solid #d5d5d5">
+<b>Question Container</b><br>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background:</div>
+<input type=color ng-model=quizQuestionContainerBg ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Padding:</div>
+<input type=number min=1 max=100 ng-model=quizQuestionContainerPadding ng-change=changValue();> px
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Border Color:</div>
+<input type=color ng-model=quizQuestionContainerBorderColor ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Border Width:</div>
+<input type=number min=1 max=100 ng-model=quizQuestionContainerBorderWidth ng-change=changValue();> px
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Gap between Questions:</div>
+<input type=number min=1 max=100 ng-model=quizQuestionContainerGap ng-change=changValue();> px
+</div>
+</div>
+<div style="padding:5px;border:1px solid #d5d5d5">
+<b>Question Title</b><br>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background:</div>
+<input type=color ng-model=quizQuestionTitleBg ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Text Color:</div>
+<input type=color ng-model=quizQuestionTitleColor ng-change=changValue();>
+</div>
+</div>
+<div style="padding:5px;border:1px solid #d5d5d5">
+<b>Explanation</b><br>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background:</div>
+<input type=color ng-model=quizExplanationBg ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Text Color:</div>
+<input type=color ng-model=quizExplanationColor ng-change=changValue();>
+</div>
+</div>
+<div style="padding:5px;border:1px solid #d5d5d5">
+<b>Buttons</b><br>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background:</div>
+<input type=color ng-model=quizButtonBg ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Text Color:</div>
+<input type=color ng-model=quizButtonTextColor ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Hover Background:</div>
+<input type=color ng-model=quizButtonHoverBg ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Hover Text Color:</div>
+<input type=color ng-model=quizButtonHoverTextColor ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Disable Background:</div>
+<input type=color ng-model=quizButtonDisableBg ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Disable Text Color:</div>
+<input type=color ng-model=quizButtonDisableTextColor ng-change=changValue();>
+</div>
+</div>
+<div style="padding:5px;border:1px solid #d5d5d5">
+<b>Score and Timer</b><br>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background:</div>
+<input type=color ng-model=quizsubmitPrntBg ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Text Color:</div>
+<input type=color ng-model=quizsubmitPrntColor ng-change=changValue();>
+</div>
+</div>
+<div style="padding:5px;border:1px solid #d5d5d5">
+Options Layout Type: <select ng-model=optionsLayoutType ng-change=changValue();>
+<option value=a>Type A</option>
+<option value=b>Type B</option>
+</select>
+<div ng-show="optionsLayoutType == &quot;a&quot;">Type A has different views depends on screen width. To see different views of the options, resize the browser window and see the difference in options layout in the below Live Quiz View.</div>
+<div ng-show="optionsLayoutType == &quot;b&quot;">Type B has a simple options view on all screens.</div>
+</div>
+</div>
+<div ng-show="selectType == 'advthemes'" style="background:0 0;color:#000;box-shadow:rgb(38 57 77) 0 1px 15px 0;margin:10px 0;border:1px solid gray">
+<div style="padding:5px;border:1px solid #d5d5d5">
+<div class=demo-label>
+<div class=demo-label-child ng-style={background:quizOptionBg,color:quizOptionTextColor,borderColor:quizOptionBorderColor}>
+<div class=demo-label-content>
+<div class="demo-label-middle demo-label-radio-parent">
+<div class=demo-label-radio ng-style={background:quizOptionOC}>
+<div ng-style={background:quizOptionIC}></div>
+</div>
+</div>
+<div class=demo-label-middle>Enabled Option</div>
+</div>
+</div>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background</div>
+<input type=color ng-model=quizOptionBg ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Text Color</div>
+<input type=color ng-model=quizOptionTextColor ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Border Color</div>
+<input type=color ng-model=quizOptionBorderColor ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Outer Circle Color</div>
+<input type=color ng-model=quizOptionOC ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Inner Circle Color</div>
+<input type=color ng-model=quizOptionIC ng-change=changValue();>
+</div>
+</div>
+<div style="padding:5px;border:1px solid #d5d5d5">
+<div class=demo-label>
+<div class=demo-label-child ng-style={background:quizHOptionBg,color:quizHOptionTextColor,borderColor:quizHOptionBorderColor}>
+<div class=demo-label-content>
+<div class="demo-label-middle demo-label-radio-parent">
+<div class=demo-label-radio ng-style={background:quizHOptionOC}>
+<div ng-style={background:quizHOptionIC}></div>
+</div>
+</div>
+<div class=demo-label-middle>Hover Option</div>
+</div>
+</div>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background</div>
+<input type=color ng-model=quizHOptionBg ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Text Color</div>
+<input type=color ng-model=quizHOptionTextColor ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Border Color</div>
+<input type=color ng-model=quizHOptionBorderColor ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Outer Circle Color</div>
+<input type=color ng-model=quizHOptionOC ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Inner Circle Color</div>
+<input type=color ng-model=quizHOptionIC ng-change=changValue();>
+</div>
+</div>
+<div style="padding:5px;border:1px solid #d5d5d5">
+<div class=demo-label>
+<div class=demo-label-child ng-style={background:quizCOptionBg,color:quizCOptionTextColor,borderColor:quizCOptionBorderColor}>
+<div class=demo-label-content>
+<div class="demo-label-middle demo-label-radio-parent">
+<div class=demo-label-radio ng-style={background:quizCOptionOC}>
+<div ng-style={background:quizCOptionIC}></div>
+</div>
+</div>
+<div class=demo-label-middle>Selected Option</div>
+</div>
+</div>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background</div>
+<input type=color ng-model=quizCOptionBg ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Text Color</div>
+<input type=color ng-model=quizCOptionTextColor ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Border Color</div>
+<input type=color ng-model=quizCOptionBorderColor ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Outer Circle Color</div>
+<input type=color ng-model=quizCOptionOC ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Inner Circle Color</div>
+<input type=color ng-model=quizCOptionIC ng-change=changValue();>
+</div>
+</div>
+<div style="padding:5px;border:1px solid #d5d5d5">
+<div class=demo-label>
+<div class=demo-label-child ng-style={background:quizCorrectOptionBg,color:quizCorrectOptionTextColor,borderColor:quizCorrectOptionBorderColor}>
+<div class=demo-label-content>
+<div class="demo-label-middle demo-label-radio-parent">
+<div class=demo-label-radio ng-style={background:quizOptionOC}>
+<div ng-style={background:quizOptionIC}></div>
+</div>
+</div>
+<div class=demo-label-middle>Correct Option</div>
+<div class="label-middle right-mark" ng-style={color:quizCorrectOptionRightMarkColor}>&#10004;</div>
+</div>
+</div>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background</div>
+<input type=color ng-model=quizCorrectOptionBg ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Text Color</div>
+<input type=color ng-model=quizCorrectOptionTextColor ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Border Color</div>
+<input type=color ng-model=quizCorrectOptionBorderColor ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Right Mark Color</div>
+<input type=color ng-model=quizCorrectOptionRightMarkColor ng-change=changValue();>
+</div>
+</div>
+<div style="padding:5px;border:1px solid #d5d5d5">
+<div class=demo-label>
+<div class=demo-label-child ng-style={background:quizInCorrectOptionBg,color:quizInCorrectOptionTextColor,borderColor:quizInCorrectOptionBorderColor}>
+<div class=demo-label-content>
+<div class="demo-label-middle demo-label-radio-parent">
+<div class=demo-label-radio ng-style={background:quizCOptionOC}>
+<div ng-style={background:quizCOptionIC}></div>
+</div>
+</div>
+<div class=demo-label-middle>Incorrect Option</div>
+<div class="label-middle wrong-mark" ng-style={color:quizInCorrectOptionWrongMarkColor}>&#10006;</div>
+</div>
+</div>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background</div>
+<input type=color ng-model=quizInCorrectOptionBg ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Text Color</div>
+<input type=color ng-model=quizInCorrectOptionTextColor ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Border Color</div>
+<input type=color ng-model=quizInCorrectOptionBorderColor ng-change=changValue();>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Wrong Mark Color</div>
+<input type=color ng-model=quizInCorrectOptionWrongMarkColor ng-change=changValue();>
+</div>
+</div>
+</div>
+</div>
+</form>
+<br>
+<div><b>Live Quiz View:</b></div>
+<br>
+<desktop-mobile></desktop-mobile>
+<br>
+<code-generater dat="{isShowAllQuestions:isShowAllQuestions, isShowTimer:isShowTimer, data:data, maxWidth:maxWidth, maxWidthType:maxWidthType,alignType:alignType,showGeneratedCode:showGeneratedCode}"></code-generater>
+</div>

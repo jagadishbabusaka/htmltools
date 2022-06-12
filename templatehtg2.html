@@ -1,0 +1,145 @@
+<div id=tg_pg ng-app=myApp ng-controller=myCtrl>
+<form class=inputForm>
+<input ng-disabled=!isSavedInLocalStorage class=tool_btn type=button value="Reset or Start New Table" ng-click=clearContentSettings()>
+<br>
+<div class=radio-toolbar>
+<input type=radio id=radioButtontTypeItems name=radioButtonType ng-model=buttonType ng-change=changValue() value=items>
+<label for=radioButtontTypeItems>Add Content</label>
+<input type=radio id=radioButtontTypeDesktop name=radioButtonType ng-model=buttonType ng-change=changValue() value=desktopSettings>
+<label for=radioButtontTypeDesktop>Large Screen Settings</label>
+<input type=radio id=radioButtontTypeMobile name=radioButtonType ng-model=buttonType ng-change=changValue() value=mobileSettings>
+<label for=radioButtontTypeMobile>Small Screen Settings</label>
+</div>
+<div class="direction single-question-container" ng-show="buttonType == 'items'">
+<div style="border:1px solid #d5d5d5;padding:5px;border-radius:3px;margin-bottom:5px">
+<div style=margin-bottom:10px><div class=label>Number of Rows:</div>
+<input type=number min=1 max=1000 ng-model=tableRows ng-change=changValue()>
+</div>
+<div style=margin-bottom:10px><div class=label>Number of Columns:</div>
+<input type=number min=1 max=1000 ng-model=tableColumns ng-change=changValue()>
+</div>
+<div style=margin-bottom:10px>
+<input id=showRowInfo type=checkbox ng-model=showRowInfo ng-change=changValue()><label for=showRowInfo>Add Row Description</label>
+</div>
+</div>
+<div style=overflow-x:scroll class=editTable-container>
+<table>
+<tr>
+<td ng-if=showRowInfo>Row Description</td>
+<td ng-repeat="head in tableHeader">
+<input ng-model=head.head ng-change=changValue()>
+</td>
+</tr>
+<tr ng-repeat="row in tableData">
+<td ng-if=showRowInfo>
+<input ng-model=row.rowInfo ng-change=changValue()>
+</td>
+<td ng-repeat="column in row.cells">
+<input ng-model=column.data ng-change=changValue()>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="direction single-question-container" ng-show="buttonType == 'desktopSettings'">
+<div class=item>
+<div style="border:1px solid #d5d5d5;padding:5px;border-radius:3px;margin-bottom:5px">
+<div style=margin-bottom:10px><div class=label>Table Cell Padding:</div><input type=number min=1 max=1000 ng-model=lsCellPadding ng-change=changValue()>px</div>
+<div style=margin-bottom:10px><div class=label>Table Color:</div><input type=color ng-model=lsTableColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Border Color:</div><input type=color ng-model=borderColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Table Text Color:</div><input type=color ng-model=lsTableTextColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Table Text Align:</div>
+<select ng-model=lsTableTextAlign ng-change=changValue()>
+<option value=left>Left</option>
+<option value=center>Center</option>
+<option value=right>Right</option>
+</select>
+</div>
+</div>
+<div style="border:1px solid #d5d5d5;padding:5px;border-radius:3px;margin-bottom:5px">
+<div style=margin-bottom:10px><div class=label>Header Text Align:</div>
+<select ng-model=lsHeaderTextAlign ng-change=changValue()>
+<option value=left>Left</option>
+<option value=center>Center</option>
+<option value=right>Right</option>
+</select>
+</div>
+<div style=margin-bottom:10px><div class=label>Header Text Weight:</div>
+<select ng-model=lsHeaderTextWeight ng-change=changValue()>
+<option value=normal>Normal</option>
+<option value=bold>Strong</option>
+</select>
+</div>
+<div style=margin-bottom:10px><div class=label>Header Background:</div><input type=color ng-model=lsHeaderBackground ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Header Text Color:</div><input type=color ng-model=lsHeaderText ng-change=changValue()></div>
+</div>
+<div ng-show=!showRowInfo style="border:1px solid #d5d5d5;padding:5px;border-radius:3px">
+<input id=isHover type=checkbox ng-model=isHoverRows ng-change=changValue()><label for=isHover>Add Hover Effect on Rows</label>
+<div ng-show=isHoverRows>
+<div style=margin-bottom:10px><div class=label>Row Background:</div><input type=color ng-model=hoverRowsColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Row Text Color:</div><input type=color ng-model=hoverRowsTextColor ng-change=changValue()></div>
+</div>
+</div>
+<div ng-show=!showRowInfo style="border:1px solid #d5d5d5;padding:5px;border-radius:3px">
+<input id=isStriped type=checkbox ng-model=isStriped ng-change=changValue()><label for=isStriped>Stripped Rows</label>
+<div ng-show=isStriped>
+<div style=margin-bottom:10px><div class=label>Row Background:</div><input type=color ng-model=striperColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Row Text Color:</div><input type=color ng-model=striperTextColor ng-change=changValue()></div>
+</div>
+</div>
+<div ng-show=showRowInfo style="border:1px solid #d5d5d5;padding:5px;border-radius:3px">
+Row Description
+<div>
+<div style=margin-bottom:10px><div class=label>Background:</div><input type=color ng-model=striperColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Text Color:</div><input type=color ng-model=striperTextColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Row Text Align:</div>
+<select ng-model=lsDescriptionTextAlign ng-change=changValue()>
+<option value=left>Left</option>
+<option value=center>Center</option>
+<option value=right>Right</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="direction single-question-container" ng-show="buttonType == 'mobileSettings'">
+<div class=item>
+<div style="border:1px solid #d5d5d5;padding:5px;border-radius:3px;margin-bottom:5px">
+<div style=margin-bottom:10px><div class=label>Table Cell Padding:</div><input type=number min=1 max=1000 ng-model=ssCellPadding ng-change=changValue()>px</div>
+<div style=margin-bottom:10px><div class=label>Gap between Rows:</div><input type=number min=0 max=1000 ng-model=ssGapRows ng-change=changValue()>px</div>
+<div style=margin-bottom:10px><div class=label>Table Color:</div><input type=color ng-model=ssTableColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Table Text Color:</div><input type=color ng-model=ssTableTextColor ng-change=changValue()></div>
+</div>
+<div style="border:1px solid #d5d5d5;padding:5px;border-radius:3px;margin-bottom:5px">
+<div style=margin-bottom:10px><div class=label>Header Text Weight:</div>
+<select ng-model=ssHeaderTextWeight ng-change=changValue()>
+<option value=normal>Normal</option>
+<option value=bold>Strong</option>
+</select>
+</div>
+<div style=margin-bottom:10px><div class=label>Header Text Color:</div><input type=color ng-model=ssTableHeaderTextColor ng-change=changValue()></div>
+</div>
+<div ng-show=showRowInfo style="border:1px solid #d5d5d5;padding:5px;border-radius:3px">
+Row Description
+<div>
+<div style=margin-bottom:10px><div class=label>Row Text Align:</div>
+<select ng-model=ssDescriptionTextAlign ng-change=changValue()>
+<option value=left>Left</option>
+<option value=center>Center</option>
+<option value=right>Right</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>
+<desktop-mobile></desktop-mobile>
+<br>
+<br>
+<code-generater></code-generater>
+</div>
+<br>
+<br>
+<br>

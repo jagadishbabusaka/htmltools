@@ -1,0 +1,85 @@
+<div class="body">
+<div id="tg_pg" ng-app="myApp" ng-controller="myCtrl">
+<form>
+   <div class="radio-toolbar">
+		<input type="radio" id="radioButtontTypeValues" name="radioButtonType" ng-model="buttonType" ng-change="changValue()" value="values" />
+		<label for="radioButtontTypeValues">Button Values</label>
+
+		<input type="radio" id="radioButtontTypeStyle" name="radioButtonType" ng-model="buttonType" ng-change="changValue()" value="styles" />
+		<label for="radioButtontTypeStyle">Button Style</label> 
+	</div>
+	<div class="direction single-question-container" ng-show="buttonType == 'values'">
+		Button Name:<input type="text" ng-model="buttonValueName" placeholder="Button Name"  ng-change="changValue()"/><br/><br/>
+		Button URL:<input type="url" ng-model="buttonValueURL"  ng-change="changValue()" placeholder="URL"/>
+		<input type="checkbox" id="targetWindow" ng-model="isNotSameTab" ng-change="changValue()" />
+		<label for="targetWindow">Open Link in New Tab</label>	
+	</div>
+	<div class="direction single-question-container" ng-show="buttonType == 'styles'">
+		<div class="radio-toolbar">
+			<input type="radio" id="padding"name="differentStyles" ng-model="styleType" value="padding" ng-change="changValue()"/>
+			<label for="padding">Padding</label>
+			<input type="radio" id="margin"name="differentStyles" ng-model="styleType" value="margin" ng-change="changValue()"/>
+			<label for="margin">Margin</label>	
+			<input type="radio" id="background"name="differentStyles" ng-model="styleType" value="background" ng-change="changValue()"/>
+			<label for="background">Background</label>	
+			<input type="radio" id="border"name="differentStyles" ng-model="styleType" value="border" ng-change="changValue()"/>
+			<label for="border">Border</label>	
+		</div>
+		<div class="slidecontainer sliderParent" ng-show="styleType == 'padding'">		  
+		  <b>Padding</b><br />
+		  <span>Left {{paddingLeft}}px</span>
+		  <input type="range" min="0" max="100" ng-model="paddingLeft" value="50" class="slider" ng-change="changValue()">
+		  <span>Top {{paddingTop}}px</span>
+		  <input type="range" min="0" max="100" ng-model="paddingTop" value="50" class="slider" ng-change="changValue()">
+		  <span>Right {{paddingRight}}px</span>
+		  <input type="range" min="0" max="100" ng-model="paddingRight" value="50" class="slider" ng-change="changValue()">
+		  <span>Bottom {{paddingBottom}}px</span>
+		  <input type="range" min="0" max="100" ng-model="paddingBottom" value="50" class="slider" ng-change="changValue()">
+		</div>
+		<div class="slidecontainer sliderParent" ng-show="styleType == 'margin'">		  
+		  <b>Margin</b><br />
+		  <span>Left {{marginLeft}}px</span>
+		  <input type="range" min="0" max="100" ng-model="marginLeft" value="50" class="slider" ng-change="changValue()">
+		  <span>Top {{marginTop}}px</span>
+		  <input type="range" min="0" max="100" ng-model="marginTop" value="50" class="slider" ng-change="changValue()">
+		  <span>Right {{marginRight}}px</span>
+		  <input type="range" min="0" max="100" ng-model="marginRight" value="50" class="slider" ng-change="changValue()">
+		  <span>Bottom {{marginBottom}}px</span>
+		  <input type="range" min="0" max="100" ng-model="marginBottom" value="50" class="slider" ng-change="changValue()">
+		</div>
+		<div class="slidecontainer sliderParent" ng-show="styleType == 'background'">		  
+		  <b>Background</b><br />
+		  <span style="margin-right:5px">Color</span><input type="color" ng-model="bgColor" ng-change="changValue()">
+		  <span style="margin-left:5px;margin-right:5px">Text Color</span><input type="color" ng-model="bgTextColor" ng-change="changValue()"><br /><br />
+		  <b>Background Hover</b><br />
+		  <span style="margin-right:5px">Color</span><input type="color" ng-model="bgHoverColor" ng-change="changValue()">
+		  <span style="margin-left:5px;margin-right:5px">Text Color</span><input type="color" ng-model="bgHoverTextColor" ng-change="changValue()">
+		</div>
+		<div class="slidecontainer sliderParent" ng-show="styleType == 'border'">		  
+		  <b>Border</b><br />
+		  <span style="margin-right:5px">Color</span><input type="color" ng-model="borderColor" ng-change="changValue()"><br/>
+		  <span style="margin-right:5px">Hover Color</span><input type="color" ng-model="borderHoverColor" ng-change="changValue()">
+		  <br/ ><br/ ><b>Border Width</b><br />
+		  <span>Left {{borderLeftWidth}}px</span>
+		  <input type="range" min="0" max="100" ng-model="borderLeftWidth" value="50" class="slider" ng-change="changValue()">
+		  <span>Top {{borderTopWidth}}px</span>
+		  <input type="range" min="0" max="100" ng-model="borderTopWidth" value="50" class="slider" ng-change="changValue()">
+		  <span>Right {{borderRightWidth}}px</span>
+		  <input type="range" min="0" max="100" ng-model="borderRightWidth" value="50" class="slider" ng-change="changValue()">
+		  <span>Bottom {{borderBottomWidth}}px</span>
+		  <input type="range" min="0" max="100" ng-model="borderBottomWidth" value="50" class="slider" ng-change="changValue()">
+		  <br/ ><br/ ><b>Border Radius {{borderRadius}}px</b><br />
+		  <input type="range" min="0" max="100" ng-model="borderRadius" value="50" class="slider" ng-change="changValue()">
+		</div>
+	</div>
+</form>
+<desktop-mobile></desktop-mobile>
+<br />
+<br />
+<h2>Generated Code</h2>
+<code-generater dat="{buttonType:buttonType,buttonValueURL:buttonValueURL,paddingLeft:paddingLeft,paddingTop:paddingTop,paddingRight:paddingRight,paddingBottom:paddingBottom,marginLeft:marginLeft,marginTop:marginTop,marginRight:marginRight,marginBottom:marginBottom,bgColor:bgColor,bgTextColor:bgTextColor,borderLeftWidth:borderLeftWidth,borderTopWidth:borderTopWidth,borderRightWidth:borderRightWidth,borderBottomWidth:borderBottomWidth,borderColor:borderColor,borderRadius:borderRadius,buttonValueName:buttonValueName,bgHoverColor:bgHoverColor,bgHoverTextColor:bgHoverTextColor,borderHoverColor:borderHoverColor,isNotSameTab:isNotSameTab}"></code-generater>
+</div>
+<br/>
+<br/>
+<br/>
+</div>

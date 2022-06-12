@@ -1,0 +1,118 @@
+<div id=tg_pg ng-app=myApp ng-controller=myCtrl>
+<form class=tool>
+<div class=radio-toolbar>
+<input type=radio id=questions name=selectType ng-model=selectType value=questions>
+<label for=questions>Accordion Editor</label>
+<input type=radio id=themes name=selectType ng-model=selectType value=themes>
+<label for=themes>Theme Settings</label>
+</div>
+<div class=form_container>
+<div ng-show="selectType == 'questions'">
+<div class=single-question-container ng-repeat="q in editableData" ng-init="qindex = $index;q.selected=null">
+<div class=removeQuestion ng-click=removeQuestion(qindex) ng-show="$index==editableData.length-1">X</div>
+<div class=question>
+<span class=questionNum>{{$index+1}}.</span>
+<div class=questionName><input ng-model=q.question ng-change=changValue()></div>
+</div>
+Content Type: <select ng-model=q.type ng-change=changValue()>
+<option value=links>Links</option>
+<option value=text>Text</option>
+<option value=other>HTML</option>
+</select>
+<div ng-show="q.type == qtype[0]" class=option ng-repeat="link in q.links" ng-init="oindex = $index">
+<div class=my-label>
+<input ng-model=link.name ng-change=changValue() placeholder="Link Name">
+<input ng-model=link.url ng-change=changValue() placeholder=URL>
+<div class=removeOption ng-click="removeOption(qindex, oindex)" ng-show="$index == q.links.length-1">X</div>
+</div>
+</div>
+<div ng-show="q.type == qtype[0]" class=addOption ng-click=addOption(qindex)>Add Link</div>
+<div ng-show="q.type == qtype[1]" class=option>
+<textarea class=explanation ng-model=q.text ng-change=changValue() placeholder=Text></textarea>
+</div>
+<div ng-show="q.type == qtype[2]" class=option>
+<textarea class=explanation ng-model=q.html ng-change=changValue() placeholder=HTML></textarea>
+</div>
+<div>
+</div>
+</div>
+<div class=addQuestion ng-click=addQuestion()>Add Menu</div>
+</div>
+<div ng-show="selectType == 'themes'" style="box-shadow:rgb(38 57 77) 0 1px 15px 0;margin:10px 0">
+<div style="padding:5px;border:1px solid #d5d5d5">
+<b>Menu</b><br>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background:</div>
+<input type=color ng-model=menuBg ng-change=changValue()>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Text Color:</div>
+<input type=color ng-model=menuTextColor ng-change=changValue()>
+</div>
+</div>
+<div style="padding:5px;border:1px solid #d5d5d5">
+<b>Active Menu</b><br>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background:</div>
+<input type=color ng-model=menuBgActive ng-change=changValue()>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Text Color:</div>
+<input type=color ng-model=menuTextColorActive ng-change=changValue()>
+</div>
+</div>
+<div style="padding:5px;border:1px solid #d5d5d5">
+<b>Content Panel</b><br>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background:</div>
+<input type=color ng-model=contenteBg ng-change=changValue()>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Text Color:</div>
+<input type=color ng-model=contentTextColor ng-change=changValue()>
+</div>
+</div>
+<div style="padding:5px;border:1px solid #d5d5d5">
+<b>Links</b><br>
+<div style=padding:5px>
+<div style=width:200px;float:left>Background:</div>
+<input type=color ng-model=linkBg ng-change=changValue()>
+</div>
+<div style=padding:5px>
+<div style=width:200px;float:left>Text Color:</div>
+<input type=color ng-model=linkTextColor ng-change=changValue()>
+</div>
+</div>
+</div>
+</div>
+</form>
+<br>
+<br>
+<br>
+<div><b>Live Accordion View:</b></div>
+<br>
+<div class=responsive_container><div class=row><div class="column desktop_column"><div id=desktop_view><div class=view_gradient>
+<div class=my-accordion>
+<div ng-repeat="q in editableData" ng-init="qindex = $index;q.selected=null">
+<button class=menu ng-class="{'active': q.isActive}" ng-click=menuClicked($index) ng-style={background:q.isActive?menuBgActive:menuBg,color:q.isActive?menuTextColorActive:menuTextColor}>
+{{q.question}}
+<span class="arrow rarrow" ng-show=!q.isActive>+</span>
+<span class="arrow darrow" ng-show=q.isActive>-</span>
+</button>
+<div ng-show="q.type == qtype[0] && q.isActive" class=panel ng-style={background:contenteBg,color:contentTextColor}>
+<div>
+<a target=_blank ng-repeat="link in q.links" href={{link.url}} ng-style={background:linkBg,color:linkTextColor}>{{link.name}}</a>
+</div>
+</div>
+<div ng-show="q.type == qtype[1] && q.isActive" class=panel ng-style={background:contenteBg,color:contentTextColor}>
+<div style=padding:10px>{{q.text}}</div>
+</div>
+<div ng-show="q.type == qtype[2] && q.isActive" class=panel ng-style={background:contenteBg,color:contentTextColor}>
+<div style=padding:10px ng-bind-html=trustAsHtml(q.html)></div>
+</div>
+</div>
+</div>
+</div></div></div><div class="column mobile_column"></div></div></div>
+<br>
+<code-generater dat="{isShowAllQuestions:isShowAllQuestions, isShowTimer:isShowTimer, data:data, maxWidth:maxWidth, maxWidthType:maxWidthType,alignType:alignType,showGeneratedCode:showGeneratedCode}"></code-generater>
+</div>

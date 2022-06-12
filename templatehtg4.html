@@ -1,0 +1,82 @@
+<div class=body>
+<div id=tg_pg ng-app=myApp ng-controller=myCtrl>
+<form>
+<input ng-disabled=!isSavedInLocalStorage class=tool_btn type=button value="Reset or Start New Grid" ng-click=clearContentSettings()>
+<br>
+<div class=radio-toolbar>
+<input type=radio id=radioButtontTypeItems name=radioButtonType ng-model=buttonType ng-change=changValue() value=items>
+<label for=radioButtontTypeItems>Add Content</label>
+<input type=radio id=radioButtontTypeDesktop name=radioButtonType ng-model=buttonType ng-change=changValue() value=desktopSettings>
+<label for=radioButtontTypeDesktop>Large Screen Settings</label>
+<input type=radio id=radioButtontTypeTablet name=radioButtonType ng-model=buttonType ng-change=changValue() value=tabletSettings>
+<label for=radioButtontTypeTablet>Medium Screen Settings</label>
+<input type=radio id=radioButtontTypeMobile name=radioButtonType ng-model=buttonType ng-change=changValue() value=mobileSettings>
+<label for=radioButtontTypeMobile>Small Screen Settings</label>
+</div>
+<div class=direction ng-show="buttonType == 'items'">
+<div class=item ng-repeat="item in items">
+Add Cell {{$index+1}} Content Here
+<div class=removeCell ng-click=removeCell($index)>X</div>
+<textarea ng-model=item.data placeholder="Type or Paste Content to insert into Cell{{$index+1}} Here" ng-change=changValue()></textarea>
+</div>
+<input type=button value="Add Cell" ng-click=addCell()>
+</div>
+<div class=direction ng-show="buttonType == 'desktopSettings'">
+<div class=item>
+<div style="border:1px solid #d5d5d5;padding:5px;border-radius:3px;margin-bottom:5px">
+<div style=margin-bottom:10px><div class=label>Number of Columns in Desktop:</div><input type=number min=1 max=1000 ng-model=desktopColumns ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Grid Background Color:</div><input type=color ng-model=desktopBgColor ng-change=changValue()></div>
+</div>
+<div style="border:1px solid #d5d5d5;padding:5px;border-radius:3px">
+<div style=margin-bottom:10px><div class=label>Cell Background Color:</div><input type=color ng-model=desktopCellBgColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Cell Text Color:</div><input type=color ng-model=desktopCellTextColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Gap Between Cells</div><input type=number min=0 ng-model=desktopCellMargin ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Cell Padding</div><input type=number min=0 ng-model=desktopCellPadding ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Cell Border Width</div><input type=number min=0 ng-model=desktopCellBorderWidth ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Cell Border Color</div><input type=color ng-model=desktopCellBorderColor ng-change=changValue()></div>
+</div>
+</div>
+</div>
+<div class=direction ng-show="buttonType == 'tabletSettings'">
+<div class=item>
+<div style="border:1px solid #d5d5d5;padding:5px;border-radius:3px;margin-bottom:5px">
+<div style=margin-bottom:10px><div class=label>Number of Columns in Tablet:</div><input type=number min=1 max=1000 ng-model=tabletColumns ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Grid Background Color:</div><input type=color ng-model=tabletBgColor ng-change=changValue()></div>
+</div>
+<div style="border:1px solid #d5d5d5;padding:5px;border-radius:3px">
+<div style=margin-bottom:10px><div class=label>Cell Background Color:</div><input type=color ng-model=tabletCellBgColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Cell Text Color:</div><input type=color ng-model=tabletCellTextColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Gap Between Cells</div><input type=number min=0 ng-model=tabletCellMargin ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Cell Padding</div><input type=number min=0 ng-model=tabletCellPadding ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Cell Border Width</div><input type=number min=0 ng-model=tabletCellBorderWidth ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Cell Border Color</div><input type=color ng-model=tabletCellBorderColor ng-change=changValue()></div>
+</div>
+</div>
+</div>
+<div class=direction ng-show="buttonType == 'mobileSettings'">
+<div class=item>
+<div style="border:1px solid #d5d5d5;padding:5px;border-radius:3px;margin-bottom:5px">
+<div style=margin-bottom:10px><div class=label>Number of Columns in Mobile:</div><input type=number min=1 max=1000 ng-model=mobileColumns ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Grid Background Color:</div><input type=color ng-model=mobileBgColor ng-change=changValue()></div>
+</div>
+<div style="border:1px solid #d5d5d5;padding:5px;border-radius:3px">
+<div style=margin-bottom:10px><div class=label>Cell Background Color:</div><input type=color ng-model=mobileCellBgColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Cell Text Color:</div><input type=color ng-model=mobileCellTextColor ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Gap Between Cells</div><input type=number min=0 ng-model=mobileCellMargin ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Cell Padding</div><input type=number min=0 ng-model=mobileCellPadding ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Cell Border Width</div><input type=number min=0 ng-model=mobileCellBorderWidth ng-change=changValue()></div>
+<div style=margin-bottom:10px><div class=label>Cell Border Color</div><input type=color ng-model=mobileCellBorderColor ng-change=changValue()></div>
+</div>
+</div>
+</div>
+</form>
+<desktop-mobile></desktop-mobile>
+<br>
+<br>
+<h2>Generated Code</h2>
+<code-generater></code-generater>
+</div>
+<br>
+<br>
+<br>
+</div>

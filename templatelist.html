@@ -1,0 +1,10 @@
+<div id=tg_pg ng-app=myApp ng-controller=myCtrl>
+<div class=single-question-container>
+<input ng-disabled=!isSavedInLocalStorage class=tool_btn type=button value="Reset or Start New List" ng-click=clearContentSettings()>
+<button ng-if="data.childs.length == 0" ng-click=addList()>Add List</button>
+<edit-list dat={data:data,listType:listType,dataChanged:dataChanged}></edit-list>
+</div>
+<desktop-mobile></desktop-mobile>
+<p>Generated Code:</p>
+<code-generater dat="{data: data}"></code-generater>
+</div>

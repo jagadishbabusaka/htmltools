@@ -1,0 +1,154 @@
+<div id=tg_pg ng-app=myApp ng-controller=myCtrl>
+<form>
+<input ng-disabled=!isSavedInLocalStorage class=tool_btn type=button value="Reset or Start New Table" ng-click=clearContentSettings()>
+<div class=radio-toolbar>
+<input type=radio id=homePage name=pageType ng-model=pageType value=tablesettings>
+<label for=homePage>Desktop Table Settings</label>
+<input type=radio id=postPage name=pageType ng-model=pageType value=accordiansettings>
+<label for=postPage>Mobile View Settings</label>
+</div>
+<div class=inputTool ng-show="pageType == 'tablesettings'">
+<div style="display:inline-block;width:100%;border:1px solid #d5d5d5;padding:6px 0;border-width:0 0 1px 0">
+<div style=display:inline-block>
+<label style=padding-left:8px><b>Table</b> Color</label>
+</div>
+<span>
+<input type=color name=tablecolor ng-model=tableColor ng-change=formDataChanged()>
+</span>
+<div style=display:inline-block>
+<label style=margin-left:25px>Text Color</label>
+</div>
+<span>
+<input type=color name=tabletextcolor ng-model=tableTextColor ng-change=formDataChanged()>
+</span>
+<div style=display:inline-block>
+<label style=margin-left:25px>Border Color</label>
+</div>
+<span>
+<input type=color name=bordercolor ng-model=borderColor ng-change=formDataChanged()>
+</span>
+</div>
+<div style="display:inline-block;width:100%;border:1px solid #d5d5d5;padding:6px 0;border-width:0 0 1px 0">
+<div style=display:inline-block>
+<input type=checkbox id=isheader ng-model=isHeader ng-change=formDataChanged()>
+<label for=isheader><b>Header</b></label>
+</div>
+<span ng-show=isHeader>
+<input type=color name=headcolor ng-model=headerColor ng-change=formDataChanged()>
+</span>
+<div style=display:inline-block>
+<label for=isheader ng-show=isHeader style=margin-left:22px>Text Color</label>
+</div>
+<span ng-show=isHeader>
+<input type=color name=headtextcolor ng-model=headerTextColor ng-change=formDataChanged()>
+</span>
+</div>
+<div style="display:inline-block;width:100%;border:1px solid #d5d5d5;padding:6px 0;border-width:0 0 1px 0">
+<div style=display:inline-block>
+<input type=checkbox id=isStriped ng-model=isStriped ng-change=formDataChanged()>
+<label for=isStriped>Striped Table</label>
+</div>
+<span ng-show=isStriped>
+<input type=color name=striperColor ng-model=striperColor ng-change=formDataChanged()>
+</span>
+</div>
+<div style="display:inline-block;width:100%;border:1px solid #d5d5d5;padding:6px 0;border-width:0 0 1px 0">
+<div style=display:inline-block>
+<input type=checkbox id=isHoverRows ng-model=isHoverRows ng-change=formDataChanged()>
+<label for=isHoverRows>Hover Rows</label>
+</div>
+<span ng-show=isHoverRows>
+<input type=color name=hoverRowsColor ng-model=hoverRowsColor ng-change=formDataChanged()>
+</span>
+</div>
+<div style=margin-top:10px;margin-bottom:10px>
+<label>Rows</label>
+<input type=number min=0 max=200 ng-model=row ng-change=createTableData() ng-change=formDataChanged()>
+<label>Columns</label>
+<input type=number min=0 max=15 ng-model=col ng-change=createTableData() ng-change=formDataChanged()>
+</div>
+</div>
+<div class=inputTool ng-show="pageType == 'accordiansettings'">
+<div style="display:inline-block;width:100%;border:1px solid #d5d5d5;margin-top:10px;padding:6px 0;border-width:0 0 1px 0">
+<div style=display:inline-block>
+<label style=padding-left:8px><b>Button</b> Background Color</label>
+</div>
+<span>
+<input type=color name=buttoncolor ng-model=buttonColor ng-change=formDataChanged()>
+</span>
+<div style=display:inline-block>
+<label style=margin-left:25px>Text Color</label>
+</div>
+<span>
+<input type=color name=buttontextcolor ng-model=buttonTextColor ng-change=formDataChanged()>
+</span>
+</div>
+<div style="display:inline-block;width:100%;border:1px solid #d5d5d5;margin-top:10px;padding:6px 0;border-width:0 0 1px 0">
+<div style=display:inline-block>
+<label style=padding-left:8px><b>Selected Button</b> Background Color</label>
+</div>
+<span>
+<input type=color name=selbuttoncolor ng-model=selectedButtonColor ng-change=formDataChanged()>
+</span>
+<div style=display:inline-block>
+<label style=margin-left:25px>Text Color</label>
+</div>
+<span>
+<input type=color name=selbuttontextcolor ng-model=selectedButtonTextColor ng-change=formDataChanged()>
+</span>
+</div>
+<div style="display:inline-block;width:100%;border:1px solid #d5d5d5;margin-top:10px;padding:6px 0;border-width:0 0 1px 0">
+<div style=display:inline-block>
+<label style=padding-left:8px><b>Panel</b> Background Color</label>
+</div>
+<span>
+<input type=color name=panelcolor ng-model=panelColor ng-change=formDataChanged()>
+</span>
+<div style=display:inline-block>
+<label style=margin-left:25px>Text Color</label>
+</div>
+<span>
+<input type=color name=paneltextcolor ng-model=panelTextColor ng-change=formDataChanged()>
+</span>
+</div>
+<div style="display:inline-block;width:100%;border:1px solid #d5d5d5;margin-top:10px;padding:6px 0;border-width:0 0 1px 0">
+<div style=display:inline-block;padding:10px>
+Select column to display its value as a button in the mobile view<br>
+<div class=select>
+<select name=singleSelectFor id=singleSelectFor ng-model=fieldSelecthasHeaderinMobile ng-change=formDataChanged()>
+<option ng-repeat="(key, val) in heads" value={{key}} ng-selectd="{{key==1}}">Column {{key+1}}</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<div>
+</div>
+</form>
+<h4>Live Table Desktop View & Mobile View:</h4>
+<desktop-mobile></desktop-mobile>
+<div style="box-shadow:rgb(38 57 77) 0 1px 15px 0;padding:5px;margin:10px 0">
+<input ng-disabled=!isSavedInLocalStorage class=tool_btn type=button value="Set Default Content and Settings" ng-click=clearContentSettings()>
+<div>
+<h4>Edit Table Content</h4>
+<div style=width:100%>
+<table>
+<tr>
+<td>
+Edit Header Content
+</td>
+</tr>
+<tr ng-repeat="(key, val) in heads track by $index">
+<td>
+<input ng-model=val ng-change="headChanged(key, val)" style=padding:5px;margin-bottom:5px>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<h4>Edit data</h4>
+<edit-tables></edit-tables>
+</div>
+<h4>Generated Code:</h4>
+<code-generater dat="{heads:heads, data: data, selectedTableType:selectedTableType, isHeader:isHeader, headerColor:headerColor, isStriped:isStriped, striperColor:striperColor, isHoverRows:isHoverRows, hoverRowsColor:hoverRowsColor, isBorderCells:isBorderCells,borderCellsColor:borderCellsColor,tableColor:tableColor,borderColor:borderColor,tableTextColor:tableTextColor,headerTextColor:headerTextColor,fieldSelecthasHeaderinMobile:fieldSelecthasHeaderinMobile,buttonColor:buttonColor,buttonTextColor:buttonTextColor,selectedButtonColor:selectedButtonColor,selectedButtonTextColor:selectedButtonTextColor,panelColor:panelColor,panelTextColor:panelTextColor}"></code-generater>
+</div>

@@ -1,0 +1,97 @@
+<div class=body>
+<div id=tg_pg ng-app=myApp ng-controller=myCtrl>
+<form>
+<div class="direction single-question-container">
+<div class=item>
+<div style="border:1px solid #fff;padding:5px;border-radius:3px;margin-bottom:5px">
+<div style=margin-bottom:10px>
+<div class=label>Iframe URL:</div>
+<input ng-model=myurl ng-change=changValue()>
+</div>
+<div style=margin-bottom:10px>
+<div class=label>Width:</div>
+<input type=number min=1 max=1000 ng-model=desktopIframeWidth ng-change=changValue()>
+<select name=singleSelect id=singleSelect ng-model=desktopIframeWidthType ng-change=changValue()>
+<option ng-repeat="(key, val) in lengthTypes" value={{val}}>{{val}}</option>
+</select>
+</div>
+<div style=margin-bottom:10px>
+<div class=label>Height:</div>
+<input type=number min=1 max=1000 ng-model=desktopIframeHeight ng-change=changValue()>px
+</div>
+<div style=margin-bottom:10px>
+<input id=desktopBorder type=checkbox ng-model=isShowBorder ng-change=changValue()><label for=desktopBorder>Show Border</label>
+</div>
+<div style=margin-bottom:10px>
+<input id=scrollbar type=checkbox ng-model=isShowScroll ng-change=changValue()><label for=scrollbar>Enable Scrolling</label>
+</div>
+<div style=margin-bottom:10px>
+<input id=responsiveTable type=checkbox ng-model=isResponsive ng-change=changValue()><label for=responsiveTable>Generate Responsive Iframe</label>
+</div>
+</div>
+</div>
+</div>
+<div class="direction single-question-container" ng-show=isResponsive>
+<div class=item>
+<div style=margin-bottom:10px>Medium Screen Settings</div>
+<div style="border:1px solid #fff;padding:5px;border-radius:3px;margin-bottom:5px">
+<div style=margin-bottom:10px>
+<div class=label>Width:</div>
+<input type=number min=1 max=1000 ng-model=tabletIframeWidth ng-change=changValue()>
+<select name=singleSelect id=singleSelect ng-model=tabletIframeWidthType ng-change=changValue()>
+<option ng-repeat="(key, val) in lengthTypes" value={{val}}>{{val}}</option>
+</select>
+</div>
+<div style=margin-bottom:10px>
+<div class=label>Height:</div>
+<input type=number min=1 max=1000 ng-model=tabletIframeHeight ng-change=changValue()>px
+</div>
+</div>
+</div>
+</div>
+<div class="direction single-question-container" ng-show=isResponsive>
+<div class=item>
+<div style=margin-bottom:10px>Small Screen Settings</div>
+<div style="border:1px solid #fff;padding:5px;border-radius:3px;margin-bottom:5px">
+<div style=margin-bottom:10px>
+<div class=label>Width:</div>
+<input type=number min=1 max=1000 ng-model=mobileIframeWidth ng-change=changValue()>
+<select name=singleSelect id=singleSelect ng-model=mobileIframeWidthType ng-change=changValue()>
+<option ng-repeat="(key, val) in lengthTypes" value={{val}}>{{val}}</option>
+</select>
+</div>
+<div style=margin-bottom:10px>
+<div class=label>Height:</div>
+<input type=number min=1 max=1000 ng-model=mobileIframeHeight ng-change=changValue()>px
+</div>
+</div>
+</div>
+</div>
+</form>
+<div class=responsive_container><div class=row>
+<div class="column desktop_column"><h4 ng-show=!isResponsive>Preview:</h4><h4 ng-show=isResponsive>Large Screen Preview:</h4><div id=desktop_view>
+<div class=view_gradient>
+<iframe ng-if=!isResponsive ng-style="{width:codeINotResponsiveWidth,height:codeINotResponsiveHeight,border:isShowBorder?'1px solid #000000':'0px'}" ng-src={{currentUrl}} scrolling={{codeINotResponsiveScroll}}>This browser deos not support Iframe</iframe>
+<div class=iframe-container ng-if=isResponsive ng-style={width:codeIResponsiveDesktopWidth,height:codeIResponsiveDesktopHeight}>
+<iframe ng-style="{width:'100%',height:'100%',border:isShowBorder?'1px solid #000000':'0px'}" ng-src={{currentUrl}} scrolling={{codeIResponsiveScroll}}>This browser deos not support Iframe</iframe>
+</div>
+</div></div></div><div class="column tablet_column" ng-if=isResponsive><h4>Medium Screen Preview:</h4><div id=tablet_view>
+<div class=view_gradient>
+<div class=iframe-container ng-if=isResponsive ng-style={width:codeIResponsiveTabletWidth,height:codeIResponsiveTabletHeight}>
+<iframe ng-style="{width:'100%',height:'100%',border:isShowBorder?'1px solid #000000':'0px'}" ng-src={{currentUrl}} scrolling={{codeIResponsiveScroll}}>This browser deos not support Iframe</iframe>
+</div>
+</div>
+</div></div><div class="column mobile_column" ng-if=isResponsive><h4>Small Screen Preview:</h4><div id=mobile_view>
+<div class=view_gradient>
+<div class=iframe-container ng-if=isResponsive ng-style={width:codeIResponsiveMobileWidth,height:codeIResponsiveMobileHeight}>
+<iframe ng-style="{width:'100%',height:'100%',border:isShowBorder?'1px solid #000000':'0px'}" ng-src={{currentUrl}} scrolling={{codeIResponsiveScroll}}>This browser deos not support Iframe</iframe>
+</div>
+</div>
+</div></div></div></div>
+<br>
+<br>
+<br>
+<h4>Generated Code</h4>
+<code-generater></code-generater>
+</div>
+</div>
